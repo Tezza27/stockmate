@@ -43,6 +43,7 @@ class _NewDeliveryState extends State<NewDeliveryScreen> {
   ];
   String dropdownValue = "Product Ascending";
   String filter;
+  String scanResult;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _NewDeliveryState extends State<NewDeliveryScreen> {
                 color: iconColour,
               ),
               iconSize: 48.0,
-              onPressed: () {},
+              onPressed: null //scanBarcode,
             ),
           ],
         ),
@@ -113,4 +114,35 @@ class _NewDeliveryState extends State<NewDeliveryScreen> {
           ),
         ));
   }
+
+//  static Future scanBarcode() async {
+//    try {
+//      String barcode = await FlutterBarcodeScanner.getBarcodeStreamReceiver("#ff6666", "Cancel", false, ScanMode.DEFAULT)
+//          .listen((barcode) {
+//        /// barcode to be used
+//      });
+//      setState(() {
+//        scanResult = barcode;
+//      });
+//    } on PlatformException catch (e) {
+//      if (e.code == BarcodeScanner.CameraAccessDenied) {
+//        setState(() {
+//          scanResult = "Camera permission not granted";
+//        });
+//      } else {
+//        setState(() {
+//          scanResult = "Unknown error: $e";
+//        });
+//      }
+//    } on FormatException {
+//      setState(() {
+//        scanResult =
+//            "null(User returned using the back button before scanning anything, Result)";
+//      });
+//    } catch (e) {
+//      setState(() {
+//        scanResult = "Unknown error: $e";
+//      });
+//    }
+//  }
 }
