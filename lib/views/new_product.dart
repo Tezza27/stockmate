@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stockmate/Settings/colours.dart';
 
 class NewProductScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class _NewProductState extends State<NewProductScreen> {
   TextEditingController descriptionController = new TextEditingController();
   String dropdownValue = "Product Ascending";
   String filter;
+  File selectedImage;
 
   @override
   void initState() {
@@ -37,35 +40,37 @@ class _NewProductState extends State<NewProductScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                          color: buttonColour,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          )),
+                        height: 200,
+                        decoration: BoxDecoration(
+                            color: buttonColour,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10.0),
+                            )),
+                        child: selectedImage != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Image.file(
+                                  selectedImage,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ))
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Image(
+                                      image: AssetImage(
+                                        "assets/Background.png",
+                                      ), fit: BoxFit.fill,
+                                      width: double.infinity,
 
-//              child: _storedImage != null
-//                  ? ClipRRect(
-//                  borderRadius: BorderRadius.circular(10.0),
-//                  child: Image.file(
-//                    _storedImage,
-//                    fit: BoxFit.cover,
-//                    width: double.infinity,
-//                  ))
-                      child: Center(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.only(top: 85.0, bottom: 85.0),
-                          child: Container(
-                            child: Icon(
-                              Icons.camera_enhance,
-                              size: 30,
-                              color: iconColour,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                                    ),
+                                    Center(child: Text("IMAGE CURRENTLY UNAVAILABLE",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: borderColour, fontSize: 30.0,fontWeight: FontWeight.bold),)),
+                                  ],
+                                ),
+                              )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4.0),
@@ -80,8 +85,10 @@ class _NewProductState extends State<NewProductScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(color: borderColour)),
-                              onPressed: () {},
-                              child: Icon(Icons.attach_file, color: iconColour,
+                              onPressed: getImageGallery,
+                              child: Icon(
+                                Icons.attach_file,
+                                color: iconColour,
                               ),
                             ),
                           ),
@@ -95,8 +102,10 @@ class _NewProductState extends State<NewProductScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(color: borderColour)),
-                              onPressed: () {},
-                              child: Icon(Icons.camera_enhance, color: iconColour,
+                              onPressed: getImageCamera,
+                              child: Icon(
+                                Icons.camera_enhance,
+                                color: iconColour,
                               ),
                             ),
                           ),
@@ -248,6 +257,26 @@ class _NewProductState extends State<NewProductScreen> {
             ),
           ),
         ));
+  }
+
+  Future getImageGallery() async {
+    var image = await ImagePicker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 600,
+    );
+    setState(() {
+      selectedImage = image;
+    });
+  }
+
+  Future getImageCamera() async {
+    var image = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
+    setState(() {
+      selectedImage = image;
+    });
   }
 
   void clearControllers() {

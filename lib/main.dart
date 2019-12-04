@@ -19,8 +19,8 @@ import 'package:stockmate/views/stock.dart';
 import 'package:stockmate/views/new_product.dart';
 import 'package:stockmate/views/serial_check.dart';
 import 'package:stockmate/views/agents.dart';
-import 'agent_details_edit.dart';
-import 'menu.dart';
+import 'views/agent_details_edit.dart';
+import 'views/menu.dart';
 
 
 void main() => runApp(MyApp());
