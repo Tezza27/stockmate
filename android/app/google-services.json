@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "608650223585",
-    "firebase_url": "https://stockmate-fd784.firebaseio.com",
-    "project_id": "stockmate-fd784",
-    "storage_bucket": "stockmate-fd784.appspot.com"
+    "project_number": "388003692925",
+    "firebase_url": "https://stockmate-98a8f.firebaseio.com",
+    "project_id": "stockmate-98a8f",
+    "storage_bucket": "stockmate-98a8f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:608650223585:android:3fdc4c9220a35480503ca0",
+        "mobilesdk_app_id": "1:388003692925:android:44747a2dc55aeb4ebb8c14",
         "android_client_info": {
           "package_name": "com.example.stockmate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "608650223585-3rat488fp0ih7881hkfbbvjk9r6ds6t1.apps.googleusercontent.com",
+          "client_id": "388003692925-2cq4nep071m6demgjov9gq35ksm57qoo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAVNfDwCVTD9JURrZ2S4hmPZ1jn3tcUv-I"
+          "current_key": "AIzaSyDCj3Cn4g0_ipM17BFt7n48ug78Mv--010"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "608650223585-3rat488fp0ih7881hkfbbvjk9r6ds6t1.apps.googleusercontent.com",
+              "client_id": "388003692925-2cq4nep071m6demgjov9gq35ksm57qoo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

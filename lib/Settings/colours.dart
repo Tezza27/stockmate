@@ -12,3 +12,4 @@ final iconTickColour = const Color(0xFF16D833);
 final iconCrossColour = const Color(0xFFFF0000);
 final backgroundFadeColour = const Color(0x3016D833);
 final lozengeColour = const Color(0xFFFFFFFF);
+final String barcodeScannerColour = "0xFF16D833";

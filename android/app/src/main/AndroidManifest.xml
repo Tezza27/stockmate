@@ -29,7 +29,8 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
         </activity>
-        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
+
     </application>
 </manifest>

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:stockmate/models/serial_list_card_class.dart';
+import 'package:stockmate/models/stock_card_class.dart';
 import 'package:stockmate/templates/serial_list_card.dart';
 import 'package:stockmate/Settings/colours.dart';
 
 class SerialListScreen extends StatefulWidget {
+
+//SerialListScreen(this.productInstance);
   @override
   _SerialListState createState() => new _SerialListState();
 }
 
 class _SerialListState extends State<SerialListScreen> {
+StockCardClass productInstance;
+// _SerialListState({this.productInstance});
+
   List<SerialListCardClass> serialListCardList = const <SerialListCardClass>[
     SerialListCardClass(
       serial: "123456789",
@@ -46,6 +52,8 @@ class _SerialListState extends State<SerialListScreen> {
   TextEditingController controller = new TextEditingController();
   String filter;
 
+
+
   @override
   void initState() {
     controller.addListener(() {});
@@ -54,21 +62,13 @@ class _SerialListState extends State<SerialListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    RouteSettings settings = ModalRoute.of(context).settings;
+    productInstance = settings.arguments;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: appBarColour,
-          title: Text("Product: JP041"),
+          title: Text("Product:  ${this.productInstance.productName}"),
           centerTitle: true,
-          actions: <Widget>[
-//            IconButton(
-//              icon: Icon(
-//                Icons.add_circle,
-//                color: iconColour,
-//              ),
-//              iconSize: 48.0,
-//              onPressed: () {},
-//            ),
-          ],
         ),
         body: Container(
           color: backgroundColour,
@@ -84,9 +84,35 @@ class _SerialListState extends State<SerialListScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
-                        child: Image(
-                          image: AssetImage("assets/Sax.jpg"),
-                        ),
+                        child: productInstance.image != null
+                            ? Image.network(
+                          productInstance.image,
+                          fit: BoxFit.fitHeight,
+                          width: double.infinity,
+                        )
+                            : ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Stack(
+                            children: <Widget>[
+                              Image(
+                                image: AssetImage(
+                                  "assets/Background.png",
+                                ),
+                                fit: BoxFit.fill,
+                                width: double.infinity,
+                              ),
+                              Center(
+                                  child: Text(
+                                    "IMAGE CURRENTLY UNAVAILABLE",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: borderColour,
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                            ],
+                          ),
+                        )
                       ),
                     ),
 
@@ -98,13 +124,13 @@ class _SerialListState extends State<SerialListScreen> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                "JP041 Eb Alto Saxophone (Lacquer)",
+                                productInstance.productDescription,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.0, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "SKU: 8416581915",
+                                productInstance.sku,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 16.0,

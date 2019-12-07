@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stockmate/Settings/colours.dart';
+import 'package:stockmate/services/database.dart';
 
 class NewProductScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _NewProductState extends State<NewProductScreen> {
   String dropdownValue = "Product Ascending";
   String filter;
   File selectedImage;
+  String imageURL;
 
   @override
   void initState() {
@@ -51,7 +54,7 @@ class _NewProductState extends State<NewProductScreen> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: Image.file(
                                   selectedImage,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fitHeight,
                                   width: double.infinity,
                                 ))
                             : ClipRRect(
@@ -61,13 +64,19 @@ class _NewProductState extends State<NewProductScreen> {
                                     Image(
                                       image: AssetImage(
                                         "assets/Background.png",
-                                      ), fit: BoxFit.fill,
+                                      ),
+                                      fit: BoxFit.fill,
                                       width: double.infinity,
-
                                     ),
-                                    Center(child: Text("IMAGE CURRENTLY UNAVAILABLE",
+                                    Center(
+                                        child: Text(
+                                      "IMAGE CURRENTLY UNAVAILABLE",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(color: borderColour, fontSize: 30.0,fontWeight: FontWeight.bold),)),
+                                      style: TextStyle(
+                                          color: borderColour,
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.bold),
+                                    )),
                                   ],
                                 ),
                               )),
@@ -87,7 +96,7 @@ class _NewProductState extends State<NewProductScreen> {
                                   side: BorderSide(color: borderColour)),
                               onPressed: getImageGallery,
                               child: Icon(
-                                Icons.attach_file,
+                                Icons.image,
                                 color: iconColour,
                               ),
                             ),
@@ -235,11 +244,23 @@ class _NewProductState extends State<NewProductScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   side: BorderSide(color: borderColour)),
-                              onPressed: () {
+                              onPressed: () async {
+                                String _sku = skuController.text;
+                                String _productCode = productController.text;
+                                String _description =
+                                    descriptionController.text;
+                                String imageName = "$_sku\.jpg";
                                 Navigator.pushNamed(
                                   context,
                                   "StockScreen",
                                 );
+
+                                await uploadImage(context, imageName);
+
+                                await DatabaseService(sku: _sku)
+                                    .updateProductData(_productCode,
+                                        _description, imageURL);
+
                                 clearControllers();
                               },
                               child: Text(
@@ -279,9 +300,18 @@ class _NewProductState extends State<NewProductScreen> {
     });
   }
 
+  Future <String> uploadImage(BuildContext context, String imageName) async {
+    StorageReference storageReference =
+        FirebaseStorage.instance.ref().child(imageName);
+    StorageUploadTask uploadTask = storageReference.putFile(selectedImage);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    return imageURL = Uri.parse(await storageReference.getDownloadURL() as String).toString();
+  }
+
   void clearControllers() {
     productController.clear();
     skuController.clear();
     descriptionController.clear();
+    selectedImage = null;
   }
 }
